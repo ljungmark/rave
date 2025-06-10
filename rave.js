@@ -1,3 +1,16 @@
+const buffer = async (requests) => {
+    for (let i = 0; i < requests; i++) {
+
+        const pagination = document.querySelector('.more_checkins');
+        if (!pagination) {
+            console.error('No pagination options were found.');
+            break;
+        }
+    }
+
+    console.info('Buffering complete.');
+};
+
 const rave = async (entries) => {
     /* Determine how many network requests are required to load all of the requested entries.
 
@@ -14,6 +27,9 @@ const rave = async (entries) => {
        45        2
        46        3, etc. */
     const requests = Math.floor((entries - 1) / 15);
+    console.info(`Will buffer ${requests} network requests.`)
+
+    await buffer(requests);
 };
 
 /* Throttle actions to protect against rate limit thresholds. */
