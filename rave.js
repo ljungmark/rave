@@ -1,14 +1,42 @@
-const buffer = async (requests) => {
-    for (let i = 0; i < requests; i++) {
-
+const buffer = async (requests, allowance = 3) => {
+    for (let iteration = 1; iteration <= requests; iteration++) {
         const pagination = document.querySelector('.more_checkins');
         if (!pagination) {
             console.error('No pagination options were found.');
             break;
         }
+
+        let probes = 0;
+        let progression = false;
+
+        while (probes < allowance && !progression) {
+            try {
+                pagination.click();
+                progression = true;
+                console.log(`Batch ${iteration}/${requests} requested.`);
+
+                await throttle(2000);
+            } catch (error) {
+                probes++;
+
+                console.error(`Attempt ${probes} failed:`, error);
+
+                if (probes >= allowance) {
+                    console.error('Allowance exhausted. Terminating.');
+                    break;
+                }
+
+                await throttle(1000);
+            }
+        }
+
+        if (!progression) {
+            console.warn('Buffering was unsuccessful.');
+            break;
+        }
     }
 
-    console.info('Buffering complete.');
+    console.info('Buffer directive completed.');
 };
 
 const rave = async (entries) => {
@@ -34,3 +62,5 @@ const rave = async (entries) => {
 
 /* Throttle actions to protect against rate limit thresholds. */
 const throttle = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+rave(60);
