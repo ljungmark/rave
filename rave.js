@@ -61,6 +61,13 @@ const rave = async (entries = 15) => {
 };
 
 /* Throttle actions to protect against rate limit thresholds. */
-const throttle = ms => new Promise(resolve => setTimeout(resolve, ms));
+const throttle = (base = 1000) => {
+    /* Randomize a number based on the `base` argument, +/- 1000.
+       The value will never go below 1000. */
+    const min = Math.max(1000, base - 1000);
+    const max = base + 1000;
+
+    new Promise(resolve => setTimeout(resolve, Math.floor(Math.random() * (max - min + 1)) + min));
+}
 
 rave(60);
