@@ -39,7 +39,7 @@ const buffer = async (requests, allowance = 3) => {
     console.info('Buffer directive completed.');
 };
 
-const rave = async (entries) => {
+const rave = async (entries = 15) => {
     /* Determine how many network requests are required to load all of the requested entries.
 
        The initial page load contain 15 check-ins.
