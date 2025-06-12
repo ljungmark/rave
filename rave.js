@@ -6,6 +6,7 @@ const buffer = async (requests, allowance = 3) => {
             break;
         }
 
+        await throttle(2000);
         let probes = 0;
         let progression = false;
 
@@ -14,8 +15,6 @@ const buffer = async (requests, allowance = 3) => {
                 pagination.click();
                 progression = true;
                 console.log(`Batch ${iteration}/${requests} requested.`);
-
-                await throttle(2000);
             } catch (error) {
                 probes++;
 
