@@ -45,7 +45,7 @@ const rave = async (entries = 15) => {
        Each subsequent request for more check-ins contains 15 additional entries.
 
        Expected results:
-       entries | result
+       entries | requests
        1         0
        15        0
        16        1
