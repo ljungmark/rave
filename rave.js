@@ -57,6 +57,9 @@ const rave = async (entries = 15) => {
     console.info(`Will buffer ${requests} network requests.`)
 
     await buffer(requests);
+
+    await throttle(2000);
+    const sensors = document.querySelectorAll('.toast_btn .toast:not(.active)');
 };
 
 /* Throttle actions to protect against rate limit thresholds. */
