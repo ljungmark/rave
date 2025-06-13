@@ -60,6 +60,25 @@ const rave = async (entries = 15) => {
 
     await throttle(2000);
     const sensors = document.querySelectorAll('.toast_btn .toast:not(.active)');
+    toast(sensors);
+};
+
+const toast = async (sensors) => {
+    const volume = sensors.length;
+    for (let iteration = 1; iteration <= volume; iteration++) {
+        /* Every fifth stimuli, throttle by ~5000ms, otherwise
+           throttle for ~1000ms. This is to not breach rate limit
+           thresholds. */
+        const delay = iteration % 5 === 0 ? 5000 : 1000;
+        await throttle(delay);
+
+        try {
+            sensors[iteration-1].click();
+            console.info(`Toasted ${iteration}/${volume}!`);
+        } catch (error) {
+            console.error(`Failed to toast ${iteration}/${volume}:`, error);
+        }
+    }
 };
 
 /* Throttle actions to protect against rate limit thresholds. */
