@@ -14,7 +14,7 @@ const buffer = async (requests, allowance = 3) => {
             try {
                 pagination.click();
                 progression = true;
-                console.log(`Batch ${iteration}/${requests} requested.`);
+                console.info(`Batch ${iteration}/${requests} requested.`);
             } catch (error) {
                 probes++;
 
