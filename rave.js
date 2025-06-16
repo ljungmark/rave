@@ -50,15 +50,14 @@ const rave = async (entries = 15) => {
         /* Array.from() returns a NodeList, which has the .slice() method on it. */
         sensors = Array.from(document.querySelectorAll('.toast_btn .toast:not(.active)'));
 
+        /* If enough sensors are available, continue.
+           Otherwise, perform another buffer run. */
         if (sensors.length >= entries) {
             break;
         }
 
         console.warn(`Only found ${sensors.length}/${entries} sensors. Buffering more... (Attempt ${probes + 1}/${allowance})`);
-
         await buffer(1);
-        await throttle(2000);
-
         probes++;
     }
 
