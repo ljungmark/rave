@@ -57,7 +57,7 @@ const rave = async (entries = 15) => {
         }
 
         console.warn(`Only found ${sensors.length}/${entries} sensors. Buffering more... (Attempt ${probes + 1}/${allowance})`);
-        await buffer(1);
+        await buffer(1000);
         probes++;
     }
 
