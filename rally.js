@@ -19,3 +19,47 @@ const throttle = (base = 1000) => {
 
     return new Promise(resolve => setTimeout(resolve, delay));
 }
+
+const rally = async () => {
+    /* The button doesn't disappear at the end of the list,
+       but is hidden. So this is to evaluate if the button
+       is visible (to continue) or not (to stop). */
+    while (window.getComputedStyle(document.querySelector('.more_friends')).display !== 'none') {
+        await throttle(2000);
+        document.querySelector('.more_friends').click();
+    }
+
+    const sensors = document.querySelectorAll('.addFriend');
+    /* Produces an array with the uids.
+
+       Expected results:
+       [
+          '<a class="addFriend" href="#" uid="1">',
+          '<a class="addFriend" href="#" uid="2">',
+          '<a class="addFriend" href="#" uid="3">'
+       ]
+       ...becomes...
+       [1, 2, 3] */
+    const uids = Array.from(sensors, sensor => sensor.dataset.uid);
+
+    store(uids);
+};
+
+/* In order to save the array in a file, add a link in the DOM
+   to a blob containing the array. This allows for the data to
+   be downloaded. */
+const store = async (uids, filename = 'uids.txt') => {
+    const blob = new Blob([uids], { type: 'text/plain' });
+
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+
+    document.body.appendChild(a);
+    link.click();
+
+    document.body.removeChild(a);
+    URL.revokeObjectURL(link.href);
+}
+
+rally();
