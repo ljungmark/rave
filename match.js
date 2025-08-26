@@ -19,3 +19,24 @@ const throttle = (base = 1000) => {
 
     return new Promise(resolve => setTimeout(resolve, delay));
 }
+
+const handshake = async (ids) => {
+    for (const id of ids) {
+        const a = document.createElement('a');
+        a.href = '#';
+        a.dataset.uid = id;
+        a.dataset.action = 'addFriend';
+        a.className = 'friendshipAction btn-add addFriend track-click';
+        a.dataset.track = 'friends';
+        a.dataset.href = ':addFriend';
+        a.textContent = 'Add';
+
+        document.body.appendChild(a);
+
+        await throttle(2000);
+
+        a.click();
+    };
+}
+
+handshake([]);
