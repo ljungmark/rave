@@ -13,7 +13,7 @@ const throttle = (base = 1000) => {
        2000   1000-3000
        3000   2000-4000
        5000   4000-60000, etc. */
-    const min = Math.max(1000, base - 1000);
+    const min = Math.max(500, base - 500);
     const max = base + 1000;
     const delay =  Math.floor(Math.random() * (max - min + 1)) + min;
 
@@ -57,7 +57,7 @@ const rave = async (entries = 15) => {
         }
 
         console.warn(`Only found ${sensors.length}/${entries} sensors. Buffering more... (Attempt ${probes + 1}/${allowance})`);
-        await buffer(1000);
+        await buffer(1);
         probes++;
     }
 
@@ -114,7 +114,7 @@ const toast = async (sensors) => {
         /* Every fifth stimuli, throttle by ~5000ms, otherwise
            throttle for ~1000ms. This is to not breach rate limit
            thresholds. */
-        const delay = iteration % 5 === 0 ? 5000 : 1000;
+        const delay = iteration % 5 === 0 ? 1000 : 500;
         await throttle(delay);
 
         try {
@@ -124,6 +124,8 @@ const toast = async (sensors) => {
             console.error(`Failed to toast ${iteration}/${volume}:`, error);
         }
     }
+
+    console.info(`Toast directive completed.`);
 };
 
-rave(60);
+rave(400);
